@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能灯光监控系统</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>智能灯光监控系统</h1>
+            <div class="header-info">
+                <div class="time" id="current-time"></div>
+                <div class="control-mode">
+                    <button class="mode-btn active" id="auto-mode">自动控制</button>
+                    <button class="mode-btn" id="manual-mode">手动控制</button>
+                </div>
+                <button class="download-btn" id="download-btn">下载能耗数据</button>
+            </div>
+        </header>
+
+        <!-- 状态概览区域 -->
+        <div class="overview-section">
+            <div class="overview-card">
+                <h3>总能耗</h3>
+                <div class="overview-value" id="total-energy">0</div>
+                <span>kWh</span>
+            </div>
+            <div class="overview-card">
+                <h3>活跃灯光</h3>
+                <div class="overview-value" id="active-lights">0</div>
+                <span>个</span>
+            </div>
+            <div class="overview-card">
+                <h3>平均自然光</h3>
+                <div class="overview-value" id="avg-natural-light">0</div>
+                <span>lux</span>
+            </div>
+            <div class="overview-card">
+                <h3>平均人流量</h3>
+                <div class="overview-value" id="avg-people-count">0</div>
+                <span>人/分钟</span>
+            </div>
+        </div>
+
+        <!-- 灯光状态区域 -->
+        <div class="section">
+            <h2>灯光状态</h2>
+            <!-- 全局控制按钮行 -->
+            <div class="light-global-control" style="margin-bottom: 20px;">
+                <span class="mode-tip" id="mode-tip" style="color: #e74c3c; margin-left: 20px; display: none;">当前为自动模式，切换至手动模式可操作灯光</span>
+            </div>
+
+            <!-- 总体挡位按钮组 -->
+            <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                <span style="font-weight: bold;">总体挡位：</span>
+                <button class="gear-btn global-gear" data-gear="1">挡位1</button>
+                <button class="gear-btn global-gear" data-gear="2">挡位2</button>
+                <button class="gear-btn global-gear" data-gear="3">挡位3</button>
+                <button class="gear-btn global-gear" data-gear="4">挡位4</button>
+            </div>
+
+            <!-- 第一组控制 -->
+            <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                <span style="font-weight: bold;">第一组控制：</span>
+                <button class="gear-btn group1-gear" data-gear="1">挡位1</button>
+                <button class="gear-btn group1-gear" data-gear="2">挡位2</button>
+                <button class="gear-btn group1-gear" data-gear="3">挡位3</button>
+                <button class="gear-btn group1-gear" data-gear="4">挡位4</button>
+            </div>
+
+            <!-- 第二组控制 -->
+            <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                <span style="font-weight: bold;">第二组控制：</span>
+                <button class="gear-btn group2-gear" data-gear="1">挡位1</button>
+                <button class="gear-btn group2-gear" data-gear="2">挡位2</button>
+                <button class="gear-btn group2-gear" data-gear="3">挡位3</button>
+                <button class="gear-btn group2-gear" data-gear="4">挡位4</button>
+            </div>
+
+            <!-- 灯光可视化展示（原有8个灯，无切换按钮） -->
+            <div class="light-groups">
+                <div class="light-group">
+                    <h3>第一组</h3>
+                    <div class="lights-container">
+                        <div class="light" id="light1">
+                            <div class="light-bulb"></div>
+                            <span>灯光 1</span>
+                            <div class="light-info">
+                                <span class="light-status">关闭</span>
+                                <span class="light-power">0W</span>
+                            </div>
+                            <div class="light-intensity">
+                                <label>强度:</label>
+                                <input type="range" id="intensity1" min="0" max="100" value="0" onchange="adjustIntensity('light1', this.value)">
+                                <span id="intensity-value1">0%</span>
+                            </div>
+                        </div>
+                        <div class="light" id="light2">
+                            <div class="light-bulb"></div>
+                            <span>灯光 2</span>
+                            <div class="light-info">
+                                <span class="light-status">关闭</span>
+                                <span class="light-power">0W</span>
+                            </div>
+                            <div class="light-intensity">
+                                <label>强度:</label>
+                                <input type="range" id="intensity2" min="0" max="100" value="0" onchange="adjustIntensity('light2', this.value)">
+                                <span id="intensity-value2">0%</span>
+                            </div>
+                        </div>
+                        <div class="light" id="light3">
+                            <div class="light-bulb"></div>
+                            <span>灯光 3</span>
+                            <div class="light-info">
+                                <span class="light-status">关闭</span>
+                                <span class="light-power">0W</span>
+                            </div>
+                            <div class="light-intensity">
+                                <label>强度:</label>
+                                <input type="range" id="intensity3" min="0" max="100" value="0" onchange="adjustIntensity('light3', this.value)">
+                                <span id="intensity-value3">0%</span>
+                            </div>
+                        </div>
+                        <div class="light" id="light4">
+                            <div class="light-bulb"></div>
+                            <span>灯光 4</span>
+                            <div class="light-info">
+                                <span class="light-status">关闭</span>
+                                <span class="light-power">0W</span>
+                            </div>
+                            <div class="light-intensity">
+                                <label>强度:</label>
+                                <input type="range" id="intensity4" min="0" max="100" value="0" onchange="adjustIntensity('light4', this.value)">
+                                <span id="intensity-value4">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="light-group">
+                    <h3>第二组</h3>
+                    <div class="lights-container">
+                        <div class="light" id="light5">
+                            <div class="light-bulb"></div>
+                            <span>灯光 5</span>
+                            <div class="light-info">
+                                <span class="light-status">关闭</span>
+                                <span class="light-power">0W</span>
+                            </div>
+                            <div class="light-intensity">
+                                <label>强度:</label>
+                                <input type="range" id="intensity5" min="0" max="100" value="0" onchange="adjustIntensity('light5', this.value)">
+                                <span id="intensity-value5">0%</span>
+                            </div>
+                        </div>
+                        <div class="light" id="light6">
+                            <div class="light-bulb"></div>
+                            <span>灯光 6</span>
+                            <div class="light-info">
+                                <span class="light-status">关闭</span>
+                                <span class="light-power">0W</span>
+                            </div>
+                            <div class="light-intensity">
+                                <label>强度:</label>
+                                <input type="range" id="intensity6" min="0" max="100" value="0" onchange="adjustIntensity('light6', this.value)">
+                                <span id="intensity-value6">0%</span>
+                            </div>
+                        </div>
+                        <div class="light" id="light7">
+                            <div class="light-bulb"></div>
+                            <span>灯光 7</span>
+                            <div class="light-info">
+                                <span class="light-status">关闭</span>
+                                <span class="light-power">0W</span>
+                            </div>
+                            <div class="light-intensity">
+                                <label>强度:</label>
+                                <input type="range" id="intensity7" min="0" max="100" value="0" onchange="adjustIntensity('light7', this.value)">
+                                <span id="intensity-value7">0%</span>
+                            </div>
+                        </div>
+                        <div class="light" id="light8">
+                            <div class="light-bulb"></div>
+                            <span>灯光 8</span>
+                            <div class="light-info">
+                                <span class="light-status">关闭</span>
+                                <span class="light-power">0W</span>
+                            </div>
+                            <div class="light-intensity">
+                                <label>强度:</label>
+                                <input type="range" id="intensity8" min="0" max="100" value="0" onchange="adjustIntensity('light8', this.value)">
+                                <span id="intensity-value8">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 传感器数据区域 -->
+        <div class="section">
+            <h2>传感器数据</h2>
+            <div class="sensor-controls">
+                <button class="sensor-btn" id="cover-sensor">遮挡传感器</button>
+                <button class="sensor-btn" id="uncover-sensor">不遮挡传感器</button>
+            </div>
+            <div class="sensors-container">
+                <div class="sensor">
+                    <h3>自然光强度</h3>
+                    <div class="sensor-value" id="natural-light">0</div>
+                    <span>lux</span>
+                    <div class="sensor-control">
+                        <label for="manual-natural-light">手动修改:</label>
+                        <input type="number" id="manual-natural-light" min="0" max="1000" value="500">
+                        <button class="sensor-control-btn" onclick="updateNaturalLight()">更新</button>
+                    </div>
+                    <div class="sensor-chart-container">
+                        <canvas id="natural-light-chart"></canvas>
+                    </div>
+                </div>
+                <div class="sensor">
+                    <h3>人流量</h3>
+                    <div class="sensor-value" id="people-count">0</div>
+                    <span>人/分钟</span>
+                    <div class="sensor-chart-container">
+                        <canvas id="people-count-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 能耗曲线区域 -->
+        <div class="section">
+            <h2>LED能耗曲线</h2>
+            <div class="chart-controls">
+                <select id="time-range">
+                    <option value="20">20分钟</option>
+                    <option value="60">1小时</option>
+                    <option value="120">2小时</option>
+                </select>
+                <button class="refresh-btn" id="refresh-btn">刷新数据</button>
+            </div>
+            <div class="chart-container">
+                <canvas id="energy-chart"></canvas>
+            </div>
+        </div>
+
+        <!-- 数据记录表格 -->
+        <div class="section">
+            <h2>能耗记录</h2>
+            <div class="table-container">
+                <table id="energy-table">
+                    <thead>
+                        <tr>
+                            <th>时间</th>
+                            <th>能耗 (W)</th>
+                            <th>活跃灯光</th>
+                            <th>自然光 (lux)</th>
+                            <th>人流量</th>
+                        </tr>
+                    </thead>
+                    <tbody id="energy-table-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
