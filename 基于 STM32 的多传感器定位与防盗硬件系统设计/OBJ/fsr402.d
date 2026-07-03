@@ -1,0 +1,17 @@
+..\obj\fsr402.o: ..\MyCode\OLED\FSR402.c
+..\obj\fsr402.o: ..\MyCode\OLED\FSR402.h
+..\obj\fsr402.o: ..\USER\stm32f10x.h
+..\obj\fsr402.o: ..\CORE\core_cm3.h
+..\obj\fsr402.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\fsr402.o: ..\USER\system_stm32f10x.h
+..\obj\fsr402.o: ..\USER\stm32f10x_conf.h
+..\obj\fsr402.o: ..\STM32_FWLIB\inc\stm32f10x_adc.h
+..\obj\fsr402.o: ..\USER\stm32f10x.h
+..\obj\fsr402.o: ..\STM32_FWLIB\inc\stm32f10x_gpio.h
+..\obj\fsr402.o: ..\STM32_FWLIB\inc\stm32f10x_rcc.h
+..\obj\fsr402.o: ..\STM32_FWLIB\inc\stm32f10x_usart.h
+..\obj\fsr402.o: ..\STM32_FWLIB\inc\misc.h
+..\obj\fsr402.o: ..\SYSTEM\usart\adcx.h
+..\obj\fsr402.o: ..\SYSTEM\delay\delay.h
+..\obj\fsr402.o: ..\SYSTEM\sys\sys.h
+..\obj\fsr402.o: D:\keil5\ARM\ARMCC\Bin\..\include\math.h

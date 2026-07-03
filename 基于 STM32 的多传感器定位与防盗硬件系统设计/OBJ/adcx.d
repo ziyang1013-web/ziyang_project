@@ -1,0 +1,13 @@
+..\obj\adcx.o: ..\SYSTEM\usart\adcx.c
+..\obj\adcx.o: ..\SYSTEM\usart\adcx.h
+..\obj\adcx.o: ..\USER\stm32f10x.h
+..\obj\adcx.o: ..\CORE\core_cm3.h
+..\obj\adcx.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\adcx.o: ..\USER\system_stm32f10x.h
+..\obj\adcx.o: ..\USER\stm32f10x_conf.h
+..\obj\adcx.o: ..\STM32_FWLIB\inc\stm32f10x_adc.h
+..\obj\adcx.o: ..\USER\stm32f10x.h
+..\obj\adcx.o: ..\STM32_FWLIB\inc\stm32f10x_gpio.h
+..\obj\adcx.o: ..\STM32_FWLIB\inc\stm32f10x_rcc.h
+..\obj\adcx.o: ..\STM32_FWLIB\inc\stm32f10x_usart.h
+..\obj\adcx.o: ..\STM32_FWLIB\inc\misc.h

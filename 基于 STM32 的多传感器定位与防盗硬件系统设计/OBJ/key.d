@@ -1,0 +1,14 @@
+..\obj\key.o: ..\MyCode\USART2\Key.c
+..\obj\key.o: ..\USER\stm32f10x.h
+..\obj\key.o: ..\CORE\core_cm3.h
+..\obj\key.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\key.o: ..\USER\system_stm32f10x.h
+..\obj\key.o: ..\USER\stm32f10x_conf.h
+..\obj\key.o: ..\STM32_FWLIB\inc\stm32f10x_adc.h
+..\obj\key.o: ..\USER\stm32f10x.h
+..\obj\key.o: ..\STM32_FWLIB\inc\stm32f10x_gpio.h
+..\obj\key.o: ..\STM32_FWLIB\inc\stm32f10x_rcc.h
+..\obj\key.o: ..\STM32_FWLIB\inc\stm32f10x_usart.h
+..\obj\key.o: ..\STM32_FWLIB\inc\misc.h
+..\obj\key.o: ..\SYSTEM\delay\delay.h
+..\obj\key.o: ..\SYSTEM\sys\sys.h
